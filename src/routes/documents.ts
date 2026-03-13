@@ -682,7 +682,7 @@ router.post('/:id/ocr/trigger', async (req: AuthRequest, res, next) => {
           documentId: document_id,
         });
       } catch (error: any) {
-        logger.error('Manual OCR failed', { error, documentId });
+        logger.error('Manual OCR failed', { error, document_id });
         await query(
           `UPDATE document_versions SET ocr_status = 'failed' WHERE id = $1`,
           [version_id]

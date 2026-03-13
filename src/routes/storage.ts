@@ -95,7 +95,8 @@ router.post('/cleanup', requireRole('Admin'), async (req: AuthRequest, res, next
       const files = fs.readdirSync(tenantUploadDir, { recursive: true });
       
       for (const file of files) {
-        const filePath = path.join(tenantUploadDir, file);
+        const fileStr = typeof file === 'string' ? file : file.toString();
+        const filePath = path.join(tenantUploadDir, fileStr);
         const stat = fs.statSync(filePath);
         
         if (stat.isFile()) {

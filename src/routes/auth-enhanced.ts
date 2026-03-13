@@ -71,10 +71,12 @@ router.post('/login', async (req, res, next) => {
     // Update last login
     await query(`UPDATE users SET last_login = NOW() WHERE id = $1`, [user.id]);
 
+    const jwtSecret: string = process.env.JWT_SECRET || 'secret';
+    const expiresIn = process.env.JWT_EXPIRES_IN || '7d';
     const token = jwt.sign(
       { userId: user.id, tenantId: user.tenant_id },
-      process.env.JWT_SECRET || 'secret',
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      jwtSecret,
+      { expiresIn } as jwt.SignOptions
     );
 
     res.json({

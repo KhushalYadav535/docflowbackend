@@ -70,7 +70,7 @@ export async function authenticateToken(
 
     req.userId = decoded.userId;
     req.tenantId = decoded.tenantId;
-    req.userRole = rolesResult.rows.map((r) => r.name);
+    req.userRole = rolesResult.rows.map((r: { name: string }) => r.name);
 
     // Verify tenant ID matches header
     const headerTenantId = req.headers['x-tenant-id'];

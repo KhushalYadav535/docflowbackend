@@ -280,3 +280,22 @@ export const documentVersionsRelations = relations(documentVersions, ({ one }) =
     references: [users.id],
   }),
 }));
+
+export const userRolesRelations = relations(userRoles, ({ one }) => ({
+  user: one(users, {
+    fields: [userRoles.userId],
+    references: [users.id],
+  }),
+  role: one(roles, {
+    fields: [userRoles.roleId],
+    references: [roles.id],
+  }),
+}));
+
+export const rolesRelations = relations(roles, ({ one, many }) => ({
+  tenant: one(tenants, {
+    fields: [roles.tenantId],
+    references: [tenants.id],
+  }),
+  users: many(userRoles),
+}));

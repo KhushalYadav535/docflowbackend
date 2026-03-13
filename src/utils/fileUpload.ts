@@ -15,7 +15,8 @@ if (!fs.existsSync(UPLOAD_DIR)) {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const tenantId = req.headers['x-tenant-id'] || 'default';
+    const tenantIdHeader = req.headers['x-tenant-id'];
+    const tenantId = Array.isArray(tenantIdHeader) ? tenantIdHeader[0] : (tenantIdHeader || 'default');
     const tenantDir = path.join(UPLOAD_DIR, tenantId);
     if (!fs.existsSync(tenantDir)) {
       fs.mkdirSync(tenantDir, { recursive: true });

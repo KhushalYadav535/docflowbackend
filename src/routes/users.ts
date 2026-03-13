@@ -22,7 +22,7 @@ router.get('/', requireRole('Admin'), async (req: AuthRequest, res, next) => {
       [req.tenantId]
     );
 
-    res.json(result.rows.map((row) => ({ ...row, roles: row.roles.filter((r: string) => r !== null) })));
+    res.json(result.rows.map((row: any) => ({ ...row, roles: row.roles.filter((r: string) => r !== null) })));
   } catch (error: any) {
     next(error);
   }

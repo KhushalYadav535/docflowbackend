@@ -73,7 +73,7 @@ router.get('/roles', requireRole('Admin'), async (req: AuthRequest, res, next) =
       [req.tenantId]
     );
 
-    res.json(result.rows.map((row) => ({
+    res.json(result.rows.map((row: any) => ({
       ...row,
       permissions: row.permissions.filter((p: string) => p !== null),
     })));

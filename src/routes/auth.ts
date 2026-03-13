@@ -87,10 +87,12 @@ router.post('/register', async (req, res, next) => {
       };
     });
 
+    const jwtSecret: string = process.env.JWT_SECRET || 'secret';
+    const expiresIn = process.env.JWT_EXPIRES_IN || '7d';
     const token = jwt.sign(
       { userId: result.user.id, tenantId: result.tenant.id },
-      process.env.JWT_SECRET || 'secret',
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      jwtSecret,
+      { expiresIn } as jwt.SignOptions
     );
 
     logger.info('New tenant and admin user created', {
@@ -217,10 +219,12 @@ router.post('/login', async (req, res, next) => {
       [user.id, tenantId]
     );
 
+    const jwtSecret: string = process.env.JWT_SECRET || 'secret';
+    const expiresIn = process.env.JWT_EXPIRES_IN || '7d';
     const token = jwt.sign(
       { userId: user.id, tenantId },
-      process.env.JWT_SECRET || 'secret',
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      jwtSecret,
+      { expiresIn } as jwt.SignOptions
     );
 
     res.json({
@@ -228,7 +232,7 @@ router.post('/login', async (req, res, next) => {
         id: user.id,
         name: user.name,
         email: user.email,
-        roles: rolesResult.rows.map((r) => r.name),
+        roles: rolesResult.rows.map((r: { name: string }) => r.name),
       },
       token,
       tenantId,

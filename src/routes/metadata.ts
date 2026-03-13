@@ -53,7 +53,7 @@ router.post('/', requireRole('Admin'), async (req: AuthRequest, res, next) => {
         tenantId: req.tenantId!,
         userId: req.userId!,
         action: AuditActions.METADATA_FIELD_CREATED,
-        documentId: null,
+        documentId: undefined,
         ipAddress: req.ip,
         metadataSnapshot: { fieldName: name, fieldType },
       });
@@ -89,7 +89,7 @@ router.put('/:id', requireRole('Admin'), async (req: AuthRequest, res, next) => 
       tenantId: req.tenantId!,
       userId: req.userId!,
       action: AuditActions.METADATA_FIELD_UPDATED,
-      documentId: null,
+        documentId: undefined,
       ipAddress: req.ip,
       metadataSnapshot: { fieldId: id, fieldName: name },
     });
@@ -128,7 +128,7 @@ router.delete('/:id', requireRole('Admin'), async (req: AuthRequest, res, next) 
       tenantId: req.tenantId!,
       userId: req.userId!,
       action: AuditActions.METADATA_FIELD_DELETED,
-      documentId: null,
+        documentId: undefined,
       ipAddress: req.ip,
       metadataSnapshot: { fieldId: id },
     });
