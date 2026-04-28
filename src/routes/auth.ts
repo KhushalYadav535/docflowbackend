@@ -166,7 +166,6 @@ router.post('/login', async (req, res, next) => {
     );
 
     if (userResult.rows.length === 0) {
-      await recordFailedAttempt(email, 'unknown');
       throw new AppError('Invalid email or password', 401);
     }
 
