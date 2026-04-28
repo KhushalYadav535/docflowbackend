@@ -406,7 +406,10 @@ router.get('/:id/file', async (req: AuthRequest, res, next) => {
     }
 
     const filePath = result.rows[0].file_path;
-    if (!fs.existsSync(filePath)) {
+    const resolvedPath = path.resolve(filePath);
+    
+    if (!fs.existsSync(resolvedPath)) {
+      logger.error('File not found at path', { filePath, resolvedPath });
       throw new AppError('File not found', 404);
     }
 
@@ -418,7 +421,7 @@ router.get('/:id/file', async (req: AuthRequest, res, next) => {
       ipAddress: req.ip,
     });
 
-    res.sendFile(path.resolve(filePath));
+    res.sendFile(resolvedPath);
   } catch (error: any) {
     next(error);
   }
